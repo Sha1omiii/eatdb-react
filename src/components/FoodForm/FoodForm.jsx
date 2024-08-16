@@ -73,6 +73,7 @@ const FoodForm = (props) => {
                     value={foodFormData.ingredients}
                     onChange={handleChange}
                 />
+                <button type="submit">Add Food</button>
             </form>
         </main>
     )

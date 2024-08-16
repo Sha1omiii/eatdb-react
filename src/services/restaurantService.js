@@ -22,7 +22,7 @@ const show = async (restuarantId) => {
     }
 }
 
-const create = async (restaurantData) => {
+const create = async (restaurantId, foodFormData) => {
     try {
         const res = await fetch(BACKEND_URL, {
             method: 'POST',
@@ -30,7 +30,7 @@ const create = async (restaurantData) => {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(restaurantData)
+            body: JSON.stringify(foodFormData)
         })
         return res.json();
     } catch (error) {

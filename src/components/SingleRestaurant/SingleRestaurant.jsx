@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import * as authService from '../../services/authService'
 import * as restaurantService from '../../services/restaurantService'
-
+import FoodForm from "../FoodForm/FoodForm";
 
 //mocking a restaurant until the backend is done
 // const mockRestaurant = [
@@ -16,11 +16,13 @@ import * as restaurantService from '../../services/restaurantService'
 const SingleRestaurant = () => {
     const [restaurant, setRestaurant] = useState(null);
     const { id } = useParams();
+    const [showPopup, setShowPopup] = useState(false) // will use this to control popup form visibility
 
     const handleAddFood = async (foodFormData) => {
-        const newFood = await restaurantService.createFood(restaurantId, foodFormData)
+        const newFood = await restaurantService.createFood(id, foodFormData)
         setRestaurant({ ...restaurant, foodList: [...restaurant.foodList, newFood] })
-      }
+        setShowPopup(false);
+    }
 
     useEffect(() => {
         const getSingleRestaurant = async () => {
@@ -57,8 +59,19 @@ const SingleRestaurant = () => {
                         <p>Nothing is in foodList</p>
                     )} 
                 </ul>
-                <Link to={`/restaurants/${id}/food/new`}>Add Food/Menu</Link>
+                <button onClick={() => setShowPopup(true)}>Add Food</button>
+                {/* <FoodForm handleAddFood={handleAddFood} />
+                <Link to={`/restaurants/${id}/food/new`}>Add Food/Menu</Link> */}
             </div>
+            {showPopup && (
+                <div className="popup">
+                    <div className="popup-content">
+                        <span className="close" onClick={() => setShowPopup(false)}>&times;</span> 
+                        {/* we are clsoing closing the popup ^ */}
+                        <FoodForm handleAddFood={handleAddFood} />
+                    </div>
+                </div>
+            )}
         </>
     ) 
 }
